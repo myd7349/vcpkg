@@ -269,7 +269,13 @@ foreach ($library in $libraries)
             findstr /si /C:"include <boost/" include/*
             findstr /si /C:"include <boost/" src/*
         ) |
-        % { $_ -replace "^[^:]*:","" -replace "boost/numeric/conversion/","boost/numeric_conversion/" -replace "boost/detail/([^/]+)/","boost/`$1/" -replace "#include ?<boost/([a-zA-Z0-9\._]*)(/|>).*", "`$1" -replace "/|\.hp?p?| ","" } | group | % name | % {
+        % { $_ `
+                -replace "^[^:]*:","" `
+                -replace "boost/numeric/conversion/","boost/numeric_conversion/" `
+                -replace "boost/functional/hash.hpp","boost/container_hash/hash.hpp" `
+                -replace "boost/detail/([^/]+)/","boost/`$1/" `
+                -replace "#include ?<boost/([a-zA-Z0-9\._]*)(/|>).*", "`$1" `
+                -replace "/|\.hp?p?| ","" } | group | % name | % {
             # mappings
             Write-Verbose "${library}: $_"
             if ($_ -match "aligned_storage") { "type_traits" }
@@ -297,7 +303,6 @@ foreach ($library in $libraries)
             elseif ($_ -match "is_placeholder|mem_fn") { "bind" }
             elseif ($_ -eq "exception_ptr") { "exception" }
             elseif ($_ -eq "multi_index_container") { "multi_index" }
-            elseif ($_ -eq "mem_fn") { "bind" }
             elseif ($_ -eq "lexical_cast") { "lexical_cast"; "math" }
             elseif ($_ -eq "numeric" -and $library -notmatch "numeric_conversion|interval|odeint|ublas") { "numeric_conversion"; "interval"; "odeint"; "ublas" }
             else { $_ }
@@ -309,16 +314,13 @@ foreach ($library in $libraries)
 
         $deps = @($groups | ? { $libraries_found -contains $_ })
 
-        if ($library -eq "regex")
-        {
-            $deps += @("container_hash")
-        }
-
         $deps = @($deps | ? {
             # Boost contains cycles, so remove a few dependencies to break the loop.
-            (($library -notmatch "core|assert|mpl|detail|type_traits") -or ($_ -notmatch "utility")) `
+            (($library -notmatch "core|assert|mpl|detail|throw_exception|type_traits") -or ($_ -notmatch "utility")) `
             -and `
             (($library -notmatch "range") -or ($_ -notmatch "algorithm"))`
+            -and `
+            (($library -ne "config") -or ($_ -notmatch "integer"))`
             -and `
             (($library -notmatch "random") -or ($_ -notmatch "multiprecision"))`
             -and `
@@ -364,7 +366,7 @@ foreach ($library in $libraries)
         }
         elseif ($library -eq "iostreams")
         {
-            $deps += @("zlib", "bzip2")
+            $deps += @("zlib", "bzip2", "liblzma")
         }
         elseif ($library -eq "locale")
         {
