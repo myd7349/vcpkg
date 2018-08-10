@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param (
     $libraries = @(),
-    $version = "1.67.0"
+    $version = "1.68.0"
 )
 
 $scriptsDir = split-path -parent $MyInvocation.MyCommand.Definition
@@ -244,7 +244,7 @@ foreach ($library in $libraries)
     if (!(Test-Path $archive))
     {
         "Downloading boost/$library..."
-        & "$scriptsDir\..\..\downloads\tools\aria2-18.01.0-windows\aria2-1.33.1-win-32bit-build1\aria2c.exe" "https://github.com/boostorg/$library/archive/boost-$version.tar.gz" -d "$scriptsDir/downloads" -o "$library-boost-$version.tar.gz"
+        & @(vcpkg fetch aria2)[-1] "https://github.com/boostorg/$library/archive/boost-$version.tar.gz" -d "$scriptsDir/downloads" -o "$library-boost-$version.tar.gz"
     }
     $hash = vcpkg hash $archive
     $unpacked = "$scriptsDir/libs/$library-boost-$version"
@@ -316,6 +316,10 @@ foreach ($library in $libraries)
         $deps = @($deps | ? {
             # Boost contains cycles, so remove a few dependencies to break the loop.
             (($library -notmatch "core|assert|mpl|detail|type_traits") -or ($_ -notmatch "utility")) `
+            -and `
+            (($library -notmatch "range") -or ($_ -notmatch "algorithm"))`
+            -and `
+            (($library -notmatch "random") -or ($_ -notmatch "multiprecision"))`
             -and `
             (($library -notmatch "lexical_cast") -or ($_ -notmatch "math"))`
             -and `
