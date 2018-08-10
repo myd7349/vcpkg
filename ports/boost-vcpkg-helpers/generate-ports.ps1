@@ -266,8 +266,8 @@ foreach ($library in $libraries)
     try
     {
         $groups = $(
-            findstr /si /C:"#include <boost/" include/*
-            findstr /si /C:"#include <boost/" src/*
+            findstr /si /C:"include <boost/" include/*
+            findstr /si /C:"include <boost/" src/*
         ) |
         % { $_ -replace "^[^:]*:","" -replace "boost/numeric/conversion/","boost/numeric_conversion/" -replace "boost/detail/([^/]+)/","boost/`$1/" -replace "#include ?<boost/([a-zA-Z0-9\._]*)(/|>).*", "`$1" -replace "/|\.hp?p?| ","" } | group | % name | % {
             # mappings
@@ -297,6 +297,7 @@ foreach ($library in $libraries)
             elseif ($_ -match "is_placeholder|mem_fn") { "bind" }
             elseif ($_ -eq "exception_ptr") { "exception" }
             elseif ($_ -eq "multi_index_container") { "multi_index" }
+            elseif ($_ -eq "mem_fn") { "bind" }
             elseif ($_ -eq "lexical_cast") { "lexical_cast"; "math" }
             elseif ($_ -eq "numeric" -and $library -notmatch "numeric_conversion|interval|odeint|ublas") { "numeric_conversion"; "interval"; "odeint"; "ublas" }
             else { $_ }
