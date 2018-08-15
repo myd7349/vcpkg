@@ -6,8 +6,31 @@ param (
 
 $scriptsDir = split-path -parent $MyInvocation.MyCommand.Definition
 
-$libsDisabledInLinux = "python|fiber"
-$libsDisabledInUWP = "iostreams|filesystem|thread|context|contract|python|stacktrace|program[_-]options|coroutine`$|fiber|locale|test|type[_-]erasure|wave|log"
+function TransformReference()
+{
+    param (
+        [string]$library
+    )
+
+    if ($library -match "python|fiber")
+    {
+        # These two only work on windows desktop
+        "$library (windows)"
+    }
+    elseif ($library -match "thread|type[_-]erasure")
+    {
+        # thread only works on x86-based processors
+        "$library (!arm)"
+    }
+    elseif ($library -match "iostreams|filesystem|context|stacktrace|coroutine`$|locale|test|wave|log`$")
+    {
+        "$library (!uwp)"
+    }
+    else
+    {
+        "$library"
+    }
+}
 
 function Generate()
 {
@@ -336,18 +359,7 @@ foreach ($library in $libraries)
             -and `
             (($library -notmatch "utility|concept_check") -or ($_ -notmatch "iterator"))
         } | % { "boost-$_" -replace "_","-" } | % {
-            if ($_ -match $libsDisabledInLinux -and $_ -match $libsDisabledInUWP)
-            {
-                "$_ (windows)"
-            }
-            elseif ($_ -match $libsDisabledInUWP)
-            {
-                "$_ (!uwp)"
-            }
-            else
-            {
-                $_
-            }
+            TransformReference $_
         })
 
         $deps += @("boost-vcpkg-helpers")
@@ -387,19 +399,7 @@ foreach ($library in $libraries)
             -Depends $deps `
             -NeedsBuild $needsBuild
 
-        if ($library -match $libsDisabledInLinux -and $library -match $libsDisabledInUWP)
-        {
-            $libraries_in_boost_port += @("$library (windows)")
-        }
-        elseif ($library -match $libsDisabledInUWP)
-        {
-            $libraries_in_boost_port += @("$library (!uwp)")
-        }
-        else
-        {
-            $libraries_in_boost_port += @($library)
-        }
-
+        $libraries_in_boost_port += @(TransformReference $library)
     }
     finally
     {
