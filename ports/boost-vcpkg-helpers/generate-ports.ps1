@@ -17,7 +17,7 @@ function TransformReference()
         # These two only work on windows desktop
         "$library (windows)"
     }
-    elseif ($library -match "thread|type[_-]erasure")
+    elseif ($library -match "thread|type[_-]erasure|contract")
     {
         # thread only works on x86-based processors
         "$library (!arm)"
