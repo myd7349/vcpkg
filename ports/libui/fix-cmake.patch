@@ -44,3 +44,34 @@ index c7193fbb..bcd14837 100644
 +)
 +
 +install(FILES ui.h DESTINATION include)
+diff --git a/unix/CMakeLists.txt b/unix/CMakeLists.txt
+index 5c9425d2..de1cb2d2 100644
+--- a/unix/CMakeLists.txt
++++ b/unix/CMakeLists.txt
+@@ -1,8 +1,19 @@
+ # 3 june 2016
+ 
+ find_package(PkgConfig REQUIRED)
++
++if (NOT PKG_CONFIG_FOUND)
++    message(FATAL_ERROR "pkg-config is required.")
++endif ()
++
+ pkg_check_modules(GTK REQUIRED gtk+-3.0)
+ 
++if (NOT GTK_FOUND)
++    message(FATAL_ERROR "GTK+ 3.0 is required.")
++else ()
++    add_definitions(${GTK_CFLAGS} ${GTK_CFLAGS_OTHER})
++endif ()
++
+ list(APPEND _LIBUI_SOURCES
+ 	unix/alloc.c
+ 	unix/area.c
+@@ -62,5 +73,5 @@ set(_LIBUI_CFLAGS
+ PARENT_SCOPE)
+ 
+ set(_LIBUI_LIBS
+-	${GTK_LDFLAGS} m ${CMAKE_DL_LIBS}
++	${GTK_LIBRARIES} m ${CMAKE_DL_LIBS}
+ PARENT_SCOPE)
