@@ -45,9 +45,10 @@ function(vcpkg_build_make)
             vcpkg_find_acquire_program(YASM)
             vcpkg_find_acquire_program(PERL)
             vcpkg_acquire_msys(MSYS_ROOT PACKAGES make)
+            message(STATUS "MSYS_ROOT: ${MSYS_ROOT}")
             get_filename_component(YASM_EXE_PATH ${YASM} DIRECTORY)
             get_filename_component(PERL_EXE_PATH ${PERL} DIRECTORY)
-            
+            message(STATUS "\${_VCPKG_PROJECT_SUBPATH}make: ${_VCPKG_PROJECT_SUBPATH}make")
             set(PATH_GLOBAL "$ENV{PATH}")
             set(ENV{PATH} "$ENV{PATH};${YASM_EXE_PATH};${MSYS_ROOT}/usr/bin;${PERL_EXE_PATH}")
             set(BASH ${MSYS_ROOT}/usr/bin/bash.exe)
@@ -121,7 +122,7 @@ function(vcpkg_build_make)
             endif()
 
             vcpkg_execute_build_process(
-                COMMAND ${MAKE} -j ${VCPKG_CONCURRENCY} ${MAKE_OPTS}
+                COMMAND ${MAKE} ${VCPKG_CONCURRENCY} ${MAKE_OPTS}
                 WORKING_DIRECTORY ${WORKING_DIRECTORY}
                 LOGNAME "${_bc_LOGFILE_ROOT}-${TARGET_TRIPLET}${SHORT_BUILDTYPE}"
             )
