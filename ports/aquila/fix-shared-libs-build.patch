@@ -1,0 +1,30 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b60106d..c1f8e29 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -168,11 +168,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+     endif()
+ endif()
+ 
+-if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -Wall -Wextra -Wcast-qual -Wcast-align -Wno-unused-parameter -Wmissing-include-dirs -Wpointer-arith -Wredundant-decls -Wshadow -fprofile-arcs -ftest-coverage")
+-    include(CodeCoverage)
+-    setup_target_for_coverage(coverage aquila_test htmlcov)
+-endif()
+ 
+ 
+ ################################################################################
+@@ -183,6 +178,13 @@ endif()
+ 
+ # main Aquila library
+ add_library(Aquila ${Aquila_HEADERS} ${Aquila_SOURCES})
++if(BUILD_SHARED_LIBS)
++    target_compile_definitions(
++        Aquila
++        PRIVATE Aquila_EXPORTS
++        PUBLIC BUILD_SHARED_LIBS
++    )
++endif()
+ 
+ # linking with extra libs
+ target_link_libraries(Aquila ${Aquila_LIBRARIES_TO_LINK_WITH})
