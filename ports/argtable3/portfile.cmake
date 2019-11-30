@@ -1,13 +1,9 @@
-include(vcpkg_common_functions)
-
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO argtable/argtable3
-    REF bbc4ec20991e87ecf8dcf288aef777b55b78daa7
-    SHA512 050f54ead2d029715d8f10e63ff555027ead61fbfa18bd955e3b99e080f9178ad5c41937c5d62477885143f27bb9e7e505a7120b95bfcd899a60719584191f1c
+    REF e58754ed716542a54f75a9c9ba5c85a057b8ea00
+    SHA512 2ef66152b81e5da8b10b5c86e17d8a32fa1c59f8df8d1d69ccba87c33c926e3894d4318ca0439926b430489cfeccc960443445d5523922670a4c947a3de27d83
     HEAD_REF master
-    PATCHES
-        fix-cmake.patch
 )
 
 vcpkg_configure_cmake(
