@@ -1,0 +1,4 @@
+Source: fibertaskinglib
+Version: 2019-04-20
+Description: A library for enabling task-based multi-threading. It allows execution of task graphs with arbitrary dependencies.
+Build-Depends: 

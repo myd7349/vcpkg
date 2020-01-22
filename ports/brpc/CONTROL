@@ -1,0 +1,4 @@
+Source: brpc
+Version: 2019-06-04
+Description: An industrial-grade RPC framework used throughout Baidu
+Build-Depends: gflags

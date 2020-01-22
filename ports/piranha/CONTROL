@@ -1,0 +1,10 @@
+Source: piranha
+Version: 2019-10-26
+Homepage: https://github.com/bluescarni/piranha
+Description: The Piranha computer algebra system
+Build-Depends:
+Default-Features:
+
+Feature:
+Description:
+Build-Depends:

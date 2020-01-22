@@ -1,0 +1,4 @@
+Source: libwdi
+Version: 1.3.0
+Description: Windows Driver Installer library for USB devices
+Homepage: https://github.com/pbatard/libwdi

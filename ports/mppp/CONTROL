@@ -1,0 +1,10 @@
+Source: mppp
+Version: 2019-10-26
+Homepage: https://github.com/bluescarni/mppp
+Description: Multiprecision for modern C++
+Build-Depends:
+Default-Features:
+
+Feature:
+Description:
+Build-Depends:

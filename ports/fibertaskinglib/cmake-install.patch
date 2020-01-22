@@ -1,0 +1,22 @@
+diff --git a/source/CMakeLists.txt b/source/CMakeLists.txt
+index f7f2efd..06cdc1d 100644
+--- a/source/CMakeLists.txt
++++ b/source/CMakeLists.txt
+@@ -98,3 +98,17 @@ target_include_directories(ftl PUBLIC ../include)
+ 
+ # Remove the prefix
+ set_target_properties(ftl PROPERTIES PREFIX "")
++
++install(ftl
++    EXPORT ftl-config
++    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
++    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
++    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
++)
++
++install(EXPORT ftl-config
++    FILE unofficial-ftl-config.cmake
++    NAMESPACE unofficial::ftl::
++    DESTINATION share/cmake/unofficial-ftl
++    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
++)

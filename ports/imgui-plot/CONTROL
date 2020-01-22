@@ -1,0 +1,5 @@
+Source: imgui-plot
+Version: 2020-01-16
+Homepage: https://github.com/soulthreads/imgui-plot
+Description: An improved plot widget for Dear ImGui, aimed at displaying audio data
+Build-Depends: imgui

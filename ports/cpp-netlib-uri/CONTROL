@@ -1,0 +1,5 @@
+Source: cpp-netlib-uri
+Version: 2019-06-29
+Description: URI parser/builder library for C++
+Homepage: https://cpp-netlib.org/
+Build-Depends: cpp-netlib
