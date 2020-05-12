@@ -19,7 +19,7 @@ namespace vcpkg
     ///
     struct PackageSpec
     {
-        PackageSpec() noexcept = default;
+        PackageSpec() noexcept {}
         PackageSpec(std::string name, Triplet triplet) : m_name(std::move(name)), m_triplet(triplet) {}
 
         static std::vector<PackageSpec> to_package_specs(const std::vector<std::string>& ports, Triplet triplet);
@@ -96,7 +96,7 @@ namespace vcpkg
         PackageSpec package_spec;
         std::vector<std::string> features;
 
-        FullPackageSpec() noexcept = default;
+        FullPackageSpec() noexcept {}
         explicit FullPackageSpec(PackageSpec spec, std::vector<std::string> features = {})
             : package_spec(std::move(spec)), features(std::move(features))
         {

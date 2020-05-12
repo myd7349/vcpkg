@@ -78,7 +78,7 @@ namespace vcpkg
     template<class T>
     struct ExpectedHolder
     {
-        ExpectedHolder() = default;
+        ExpectedHolder() {}
         ExpectedHolder(const T& t) : t(t) {}
         ExpectedHolder(T&& t) : t(std::move(t)) {}
         using pointer = T*;
