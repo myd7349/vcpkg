@@ -1,0 +1,9 @@
+Source: open-license-manager
+Version: 2020-05-18
+Description: Software licensing, copy protection SDK in C++
+Homepage: http://open-license-manager.github.io/open-license-manager/
+Build-Depends: boost-algorithm, boost-date-time, boost-filesystem, boost-lexical-cast, boost-optional, boost-program-options, boost-test, openssl
+
+Feature:
+Description:
+Build-Depends:
