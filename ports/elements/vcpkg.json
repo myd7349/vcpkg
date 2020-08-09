@@ -1,0 +1,17 @@
+{
+  "name": "elements",
+  "version-string": "2020-07-18",
+  "description": "Lightweight, fine-grained, resolution independent, modular GUI library",
+  "homepage": "https://github.com/cycfi/elements",
+  "license": "MIT",
+  "dependencies": [
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "vcpkg-cmake-config",
+      "host": true
+    }
+  ]
+}
