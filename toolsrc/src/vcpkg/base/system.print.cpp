@@ -5,7 +5,7 @@ namespace vcpkg::System
 {
     namespace details
     {
-        void print(StringView message) { fwrite(message.data(), 1, message.size(), stdout); }
+        void print(StringView message) { fwrite(message.data(), 1, message.size(), stdout); fflush(stdout); }
 
         void print(const Color c, StringView message)
         {
