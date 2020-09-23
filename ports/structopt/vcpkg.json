@@ -1,0 +1,7 @@
+{
+  "name": "structopt",
+  "version-string": "2020-09-23",
+  "description": "Parse command line arguments by defining a struct",
+  "homepage": "https://github.com/p-ranav/structopt",
+  "license": "MIT"
+}
