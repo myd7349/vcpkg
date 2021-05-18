@@ -1,0 +1,17 @@
+{
+  "name": "crashrpt2",
+  "version-date": "2021-05-19",
+  "description": "Crashrpt fixes and new features collected from various places",
+  "homepage": "https://github.com/CrashRpt/crashrpt2",
+  "license": "BSD-3-Clause",
+  "dependencies": [
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "vcpkg-cmake-config",
+      "host": true
+    }
+  ]
+}
