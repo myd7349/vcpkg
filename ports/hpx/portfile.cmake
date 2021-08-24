@@ -4,8 +4,8 @@ vcpkg_check_linkage(ONLY_DYNAMIC_LIBRARY)
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO STEllAR-GROUP/hpx
-    REF 1.5.0
-    SHA512 3ce52def94d2d76bc19f0c3a411581a69af95123bbc38b4bd777b8d89523d0e22769ac2e7bb62c756f0126f39c378dfdd503a10499d3497bfe40cc71c046c70b
+    REF 1.7.1
+    SHA512 6bdb294da393a198abf81d5f63799a066334755eed0fda40bbfc4e9a774b6e19a3e5ad7ab45c989d31f3797e7b547bb552c29f51b552d9a79d166f86aee375a3
     HEAD_REF stable
 )
 
@@ -13,8 +13,6 @@ vcpkg_configure_cmake(
     SOURCE_PATH ${SOURCE_PATH}
     PREFER_NINJA
     OPTIONS
-        "-DBOOST_ROOT=${CURRENT_INSTALLED_DIR}/share/boost"
-        "-DHWLOC_ROOT=${CURRENT_INSTALLED_DIR}/share/hwloc"
         -DHPX_WITH_VCPKG=ON
         -DHPX_WITH_TESTS=OFF
         -DHPX_WITH_EXAMPLES=OFF
@@ -42,9 +40,14 @@ foreach(CMAKE_FILE IN LISTS CMAKE_FILES)
 endforeach()
 
 vcpkg_replace_string(
+    "${CURRENT_PACKAGES_DIR}/share/${PORT}/HPXConfig.cmake"
+    "set(HPX_BUILD_TYPE \"Release\")"
+    "set(HPX_BUILD_TYPE \"\${CMAKE_BUILD_TYPE}\")")
+
+vcpkg_replace_string(
     "${CURRENT_PACKAGES_DIR}/share/${PORT}/HPXMacros.cmake"
-    "set(CMAKE_MODULE_PATH \${CMAKE_MODULE_PATH} \"\${CMAKE_CURRENT_LIST_DIR}\")"
-    "list(APPEND CMAKE_MODULE_PATH \"\${CMAKE_CURRENT_LIST_DIR}\")")
+    "set(CMAKE_MODULE_PATH \${CMAKE_MODULE_PATH}"
+    "list(APPEND CMAKE_MODULE_PATH")
 
 file(INSTALL
     ${SOURCE_PATH}/LICENSE_1_0.txt
@@ -74,13 +77,11 @@ if(DLLS)
     file(REMOVE ${DLLS})
 endif()
 
-file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/lib/bazel)
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/lib/cmake)
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/lib/pkgconfig)
 
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/include)
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/share)
-file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/lib/bazel)
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/lib/cmake)
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/lib/pkgconfig)
 

@@ -7,8 +7,8 @@ vcpkg_check_linkage(ONLY_DYNAMIC_LIBRARY)
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO alembic/alembic
-    REF cfe114639ef7ad084d61e71ab86a17e708d838ae  #v1.7.13
-    SHA512 38b797c1179e759870f10afc4a2182bc3e874eacecc9627c879d3a5cf35e49c83cae80600678427e5c22d6576d0e6280ce3cf0a2ac505f1df74ec4a8bdb083b5
+    REF 7e5cf9b896f4299117457f36a7bf47d962cd0ebf # 1.7.16
+    SHA512 aeb449890874fa3a89a72245f3e63a3370332d6becdf20bc77bd9c216bbe1e4578018bbe559c06df69db199799d071399f925a91c8fa816e0eec2d2420f091e9
     HEAD_REF master
     PATCHES
         fix-find-openexr-ilmbase.patch
@@ -45,23 +45,31 @@ file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/include)
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/share)
 
 if(VCPKG_TARGET_IS_WINDOWS)
-    file(GLOB EXE ${CURRENT_PACKAGES_DIR}/bin/*.exe)
-    file(GLOB DEBUG_EXE ${CURRENT_PACKAGES_DIR}/debug/bin/*.exe)
-    file(REMOVE ${EXE})
-    file(REMOVE ${DEBUG_EXE})
 
-    file(RENAME ${CURRENT_PACKAGES_DIR}/lib/Alembic.dll ${CURRENT_PACKAGES_DIR}/bin/Alembic.dll)
-    file(RENAME ${CURRENT_PACKAGES_DIR}/debug/lib/Alembic.dll ${CURRENT_PACKAGES_DIR}/debug/bin/Alembic.dll)
+    if(NOT DEFINED VCPKG_BUILD_TYPE OR VCPKG_BUILD_TYPE STREQUAL "release")
 
-    file(READ ${CURRENT_PACKAGES_DIR}/share/${PORT}/AlembicTargets-debug.cmake DEBUG_CONFIG)
-    string(REPLACE "\${_IMPORT_PREFIX}/debug/lib/Alembic.dll"
-                   "\${_IMPORT_PREFIX}/debug/bin/Alembic.dll" DEBUG_CONFIG "${DEBUG_CONFIG}")
-    file(WRITE ${CURRENT_PACKAGES_DIR}/share/${PORT}/AlembicTargets-debug.cmake "${DEBUG_CONFIG}")
+        file(GLOB EXE ${CURRENT_PACKAGES_DIR}/bin/*.exe)
+        file(REMOVE ${EXE})
+        file(RENAME ${CURRENT_PACKAGES_DIR}/lib/Alembic.dll ${CURRENT_PACKAGES_DIR}/bin/Alembic.dll)
+        file(READ ${CURRENT_PACKAGES_DIR}/share/${PORT}/AlembicTargets-release.cmake RELEASE_CONFIG)
+        string(REPLACE "\${_IMPORT_PREFIX}/lib/Alembic.dll"
+                    "\${_IMPORT_PREFIX}/bin/Alembic.dll" RELEASE_CONFIG "${RELEASE_CONFIG}")
+        file(WRITE ${CURRENT_PACKAGES_DIR}/share/${PORT}/AlembicTargets-release.cmake "${RELEASE_CONFIG}")
 
-    file(READ ${CURRENT_PACKAGES_DIR}/share/${PORT}/AlembicTargets-release.cmake RELEASE_CONFIG)
-    string(REPLACE "\${_IMPORT_PREFIX}/lib/Alembic.dll"
-                   "\${_IMPORT_PREFIX}/bin/Alembic.dll" RELEASE_CONFIG "${RELEASE_CONFIG}")
-    file(WRITE ${CURRENT_PACKAGES_DIR}/share/${PORT}/AlembicTargets-release.cmake "${RELEASE_CONFIG}")
+    endif()
+
+    if(NOT DEFINED VCPKG_BUILD_TYPE OR VCPKG_BUILD_TYPE STREQUAL "debug")
+
+        file(GLOB DEBUG_EXE ${CURRENT_PACKAGES_DIR}/debug/bin/*.exe)
+        file(REMOVE ${DEBUG_EXE})
+        file(RENAME ${CURRENT_PACKAGES_DIR}/debug/lib/Alembic.dll ${CURRENT_PACKAGES_DIR}/debug/bin/Alembic.dll)
+        file(READ ${CURRENT_PACKAGES_DIR}/share/${PORT}/AlembicTargets-debug.cmake DEBUG_CONFIG)
+        string(REPLACE "\${_IMPORT_PREFIX}/debug/lib/Alembic.dll"
+                    "\${_IMPORT_PREFIX}/debug/bin/Alembic.dll" DEBUG_CONFIG "${DEBUG_CONFIG}")
+        file(WRITE ${CURRENT_PACKAGES_DIR}/share/${PORT}/AlembicTargets-debug.cmake "${DEBUG_CONFIG}")
+        
+    endif()
+
 else()
     file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/bin)
     file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/bin)

@@ -1,14 +1,13 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO FreeRDP/FreeRDP
-    REF 1923e63516c1182bd5e917aeac563431e8c5381a #2.1.1
-    SHA512 9745959e0960cd02ef4c890139eb5b69932bca19eab8311f21ba1eae6d5f2e1d6d05a36275053e5111805bd4206ab93ad4e0b8f1fb10e74360297c51cfefbc96
+    REF 647a48dfa7b19ef6bbfa68a69b5d87717541ef21 #2.4.0
+    SHA512 c72072df6f2b3ebc1b632f2e3b40bdcc732e25e7c4ef97b93bc5c5351566b553f682b615e6383ac7c5a1b5ecf8ed0fa9a305ea8c904031d4c78d7c3179323032
     HEAD_REF master
     PATCHES
         DontInstallSystemRuntimeLibs.patch
         fix-linux-build.patch
         openssl_threads.patch
-        fix-include-install-path.patch
         fix-include-path.patch
         fix-libusb.patch
 )
@@ -16,10 +15,12 @@ vcpkg_from_github(
 if (NOT VCPKG_TARGET_IS_WINDOWS)
     message(WARNING "${PORT} currently requires the following libraries from the system package manager:\n    libxfixes-dev\n")
 endif()
-if (VCPKG_TARGET_IS_OSX)
+set(FREERDP_WITH_CLIENT)
+if (VCPKG_TARGET_IS_OSX OR VCPKG_TARGET_IS_LINUX)
     set(FREERDP_WITH_CLIENT -DWITH_CLIENT=OFF)
 endif()
 
+set(FREERDP_CRT_LINKAGE)
 if(VCPKG_CRT_LINKAGE STREQUAL "static")
     set(FREERDP_CRT_LINKAGE -DMSVC_RUNTIME=static)
 endif()
@@ -30,6 +31,7 @@ file(WRITE "${SOURCE_PATH}/.source_version" "${SOURCE_VERSION}-vcpkg")
 file(REMOVE ${SOURCE_PATH}/cmake/FindOpenSSL.cmake) # Remove outdated Module
 
 vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
+    FEATURES
     urbdrc CHANNEL_URBDRC
 )
 
@@ -87,6 +89,8 @@ endforeach()
 vcpkg_fixup_cmake_targets(CONFIG_PATH lib/cmake/FreeRDP-Client2_temp/FreeRDP-Client2 TARGET_PATH share/FreeRDP-Client)
 vcpkg_fixup_cmake_targets(CONFIG_PATH lib/cmake/FreeRDP2_temp/FreeRDP2 TARGET_PATH share/FreeRDP)
 vcpkg_fixup_cmake_targets(CONFIG_PATH lib/cmake/WinPR2_temp/WinPR2 TARGET_PATH share/WinPR)
+
+vcpkg_fixup_pkgconfig(SKIP_CHECK)
 
 vcpkg_replace_string(${CURRENT_PACKAGES_DIR}/share/WinPR/WinPRTargets-debug.cmake
     "debug/lib/winpr2${VCPKG_TARGET_SHARED_LIBRARY_SUFFIX}"

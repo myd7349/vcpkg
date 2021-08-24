@@ -1,49 +1,51 @@
-## # vcpkg_find_acquire_program
-##
-## Download or find a well-known tool.
-##
-## ## Usage
-## ```cmake
-## vcpkg_find_acquire_program(<VAR>)
-## ```
-## ## Parameters
-## ### VAR
-## This variable specifies both the program to be acquired as well as the out parameter that will be set to the path of the program executable.
-##
-## ## Notes
-## The current list of programs includes:
-##
-## - 7Z
-## - ARIA2 (Downloader)
-## - BISON
-## - CLANG
-## - DARK
-## - DOXYGEN
-## - FLEX
-## - GASPREPROCESSOR
-## - GPERF
-## - PERL
-## - PYTHON2
-## - PYTHON3
-## - GIT
-## - GN
-## - GO
-## - JOM
-## - MESON
-## - NASM
-## - NINJA
-## - NUGET
-## - SCONS
-## - SWIG
-## - YASM
-##
-## Note that msys2 has a dedicated helper function: [`vcpkg_acquire_msys`](vcpkg_acquire_msys.md).
-##
-## ## Examples
-##
-## * [ffmpeg](https://github.com/Microsoft/vcpkg/blob/master/ports/ffmpeg/portfile.cmake)
-## * [openssl](https://github.com/Microsoft/vcpkg/blob/master/ports/openssl/portfile.cmake)
-## * [qt5](https://github.com/Microsoft/vcpkg/blob/master/ports/qt5/portfile.cmake)
+#[===[.md:
+# vcpkg_find_acquire_program
+
+Download or find a well-known tool.
+
+## Usage
+```cmake
+vcpkg_find_acquire_program(<VAR>)
+```
+## Parameters
+### VAR
+This variable specifies both the program to be acquired as well as the out parameter that will be set to the path of the program executable.
+
+## Notes
+The current list of programs includes:
+
+* 7Z
+* ARIA2 (Downloader)
+* BISON
+* CLANG
+* DARK
+* DOXYGEN
+* FLEX
+* GASPREPROCESSOR
+* GPERF
+* PERL
+* PYTHON2
+* PYTHON3
+* GIT
+* GN
+* GO
+* JOM
+* MESON
+* NASM
+* NINJA
+* NUGET
+* SCONS
+* SWIG
+* YASM
+
+Note that msys2 has a dedicated helper function: [`vcpkg_acquire_msys`](vcpkg_acquire_msys.md).
+
+## Examples
+
+* [ffmpeg](https://github.com/Microsoft/vcpkg/blob/master/ports/ffmpeg/portfile.cmake)
+* [openssl](https://github.com/Microsoft/vcpkg/blob/master/ports/openssl/portfile.cmake)
+* [qt5](https://github.com/Microsoft/vcpkg/blob/master/ports/qt5/portfile.cmake)
+#]===]
 
 include(vcpkg_execute_in_download_mode)
 
@@ -64,20 +66,19 @@ function(vcpkg_find_acquire_program VAR)
 
   if(VAR MATCHES "PERL")
     set(PROGNAME perl)
-    set(PERL_VERSION 5.30.0.1)
+    set(PERL_VERSION 5.32.1.1)
     set(SUBDIR ${PERL_VERSION})
     set(PATHS ${DOWNLOADS}/tools/perl/${SUBDIR}/perl/bin)
     set(BREW_PACKAGE_NAME "perl")
     set(APT_PACKAGE_NAME "perl")
-    set(URL 
-      "https://strawberry.perl.bot/download/${PERL_VERSION}/strawberry-perl-${PERL_VERSION}-32bit.zip"
-      "http://strawberryperl.com/download/${PERL_VERSION}/strawberry-perl-${PERL_VERSION}-32bit.zip"
+    set(URL
+      "https://strawberryperl.com/download/${PERL_VERSION}/strawberry-perl-${PERL_VERSION}-32bit.zip"
     )
     set(ARCHIVE "strawberry-perl-${PERL_VERSION}-32bit.zip")
-    set(HASH d353d3dc743ebdc6d1e9f6f2b7a6db3c387c1ce6c890bae8adc8ae5deae8404f4c5e3cf249d1e151e7256d4c5ee9cd317e6c41f3b6f244340de18a24b938e0c4)
+    set(HASH 936381254fea2e596db6a16c23b08ced25c4081fda484e1b8c4356755016e4b956bd00f3d2ee651d5f41a7695e9998f6c1ac3f4a237212b9c55aca8c5fea14e9)
   elseif(VAR MATCHES "NASM")
     set(PROGNAME nasm)
-    set(NASM_VERSION 2.14.02)
+    set(NASM_VERSION 2.15.05)
     set(PATHS ${DOWNLOADS}/tools/nasm/nasm-${NASM_VERSION})
     set(BREW_PACKAGE_NAME "nasm")
     set(APT_PACKAGE_NAME "nasm")
@@ -86,7 +87,7 @@ function(vcpkg_find_acquire_program VAR)
       "https://fossies.org/windows/misc/nasm-${NASM_VERSION}-win32.zip"
     )
     set(ARCHIVE "nasm-${NASM_VERSION}-win32.zip")
-    set(HASH a0f16a9f3b668b086e3c4e23a33ff725998e120f2e3ccac8c28293fd4faeae6fc59398919e1b89eed7461685d2730de02f2eb83e321f73609f35bf6b17a23d1e)
+    set(HASH 9412b8caa07e15eac8f500f6f8fab9f038d95dc25e0124b08a80645607cf5761225f98546b52eac7b894420d64f26c3cbf22c19cd286bbe583f7c964256c97ed)
   elseif(VAR MATCHES "YASM")
     set(PROGNAME yasm)
     set(YASM_VERSION 1.3.0.6.g1962)
@@ -101,11 +102,12 @@ function(vcpkg_find_acquire_program VAR)
   elseif(VAR MATCHES "GIT")
     set(PROGNAME git)
     if(CMAKE_HOST_WIN32)
-      set(GIT_VERSION 2.26.2)
-      set(SUBDIR "git-${GIT_VERSION}-1-windows")
-      set(URL "https://github.com/git-for-windows/git/releases/download/v${GIT_VERSION}.windows.1/PortableGit-${GIT_VERSION}-32-bit.7z.exe")
+      set(GIT_BASE_VERSION 2.32.0)
+      set(GIT_VERSION 2.32.0.2)
+      set(SUBDIR "git-${GIT_VERSION}-2-windows")
+      set(URL "https://github.com/git-for-windows/git/releases/download/v${GIT_BASE_VERSION}.windows.2/PortableGit-${GIT_VERSION}-32-bit.7z.exe")
       set(ARCHIVE "PortableGit-${GIT_VERSION}-32-bit.7z.exe")
-      set(HASH d3cb60d62ca7b5d05ab7fbed0fa7567bec951984568a6c1646842a798c4aaff74bf534cf79414a6275c1927081a11b541d09931c017bf304579746e24fe57b36)
+      set(HASH 867d8534972cbaf7a4224e25a14d484f8d17ef186f8d79e9a758afb90cf69541375cb7615a39702311f4809cb8371ef85c2b1a15bfffe9e48f0e597ac011b348)
       set(PATHS
         "${DOWNLOADS}/tools/${SUBDIR}/mingw32/bin"
         "${DOWNLOADS}/tools/git/${SUBDIR}/mingw32/bin")
@@ -137,30 +139,30 @@ function(vcpkg_find_acquire_program VAR)
     set(ARCHIVE "gn-${GN_PLATFORM}.zip")
   elseif(VAR MATCHES "GO")
     set(PROGNAME go)
-    set(SUBDIR 1.13.1.windows-386)
+    set(SUBDIR 1.16.6.windows-386)
     set(PATHS ${DOWNLOADS}/tools/go/${SUBDIR}/go/bin)
     set(BREW_PACKAGE_NAME "go")
     set(APT_PACKAGE_NAME "golang-go")
     set(URL "https://dl.google.com/go/go${SUBDIR}.zip")
     set(ARCHIVE "go${SUBDIR}.zip")
-    set(HASH 2ab0f07e876ad98d592351a8808c2de42351ab387217e088bc4c5fa51d6a835694c501e2350802323b55a27dc0157f8b70045597f789f9e50f5ceae50dea3027)
+    set(HASH 2a1e539ed628c0cca5935d24d22cf3a7165f5c80e12a4003ac184deae6a6d0aa31f582f3e8257b0730adfc09aeec3a0e62f4732e658c312d5382170bcd8c94d8)
   elseif(VAR MATCHES "PYTHON3")
     if(CMAKE_HOST_WIN32)
       set(PROGNAME python)
-      set(PYTHON_VERSION 3.8.3)
+      set(PYTHON_VERSION 3.9.6)
       if (VCPKG_TARGET_ARCHITECTURE STREQUAL x86)
         set(SUBDIR "python-${PYTHON_VERSION}-x86")
         set(URL "https://www.python.org/ftp/python/${PYTHON_VERSION}/python-${PYTHON_VERSION}-embed-win32.zip")
         set(ARCHIVE "python-${PYTHON_VERSION}-embed-win32.zip")
-        set(HASH 8c9078f55b1b5d694e0e809eee6ccf8a6e15810dd4649e8ae1209bff30e102d49546ce970a5d519349ca7759d93146f459c316dc440737171f018600255dcd0a)
+        set(HASH 4b2a0670094e639dcb2b762a02de8cdadd0af3657c463d9ff45af2541c0306496b991ae5402f119443ca891e918685bb57d18f13975f0493d349d864ff3e3a2c)
       else()
         set(SUBDIR "python-${PYTHON_VERSION}-x64")
         set(URL "https://www.python.org/ftp/python/${PYTHON_VERSION}/python-${PYTHON_VERSION}-embed-amd64.zip")
         set(ARCHIVE "python-${PYTHON_VERSION}-embed-amd64.zip")
-        set(HASH a322fc925167edb1897764297cf47e294ad3f52c109a05f8911412807eb83e104f780e9fe783b17fe0d9b18b7838797c15e9b0805dab759829f77a9bc0159424)
+        set(HASH f8946471ed7dbc8cbffc72298f99330794b127ce6aa60abc87e80b31bd26099a2f637db85af88ce78c06dcf6e19064184ef3768edf4b1a0f97c25898e379d121)
       endif()
       set(PATHS ${DOWNLOADS}/tools/python/${SUBDIR})
-      set(POST_INSTALL_COMMAND ${CMAKE_COMMAND} -E remove python38._pth)
+      set(POST_INSTALL_COMMAND ${CMAKE_COMMAND} -E rm python39._pth)
     else()
       set(PROGNAME python3)
       set(BREW_PACKAGE_NAME "python")
@@ -169,30 +171,34 @@ function(vcpkg_find_acquire_program VAR)
   elseif(VAR MATCHES "PYTHON2")
     if(CMAKE_HOST_WIN32)
       set(PROGNAME python)
-      set(PYTHON_VERSION 2.7.16)
+      set(PYTHON_VERSION 2.7.18)
       if (VCPKG_TARGET_ARCHITECTURE STREQUAL x86)
         set(SUBDIR "python-${PYTHON_VERSION}-x86")
         set(URL "https://www.python.org/ftp/python/${PYTHON_VERSION}/python-${PYTHON_VERSION}.msi")
         set(ARCHIVE "python-${PYTHON_VERSION}.msi")
-        set(HASH c34a6fa2438682104dccb53650a2bdb79eac7996deff075201a0f71bb835d60d3ed866652a1931f15a29510fe8e1009ac04e423b285122d2e5747fefc4c10254)
+        set(HASH 2c112733c777ddbf189b0a54047a9d5851ebce0564cc38b9687d79ce6c7a09006109dbad8627fb1a60c3ad55e261db850d9dfa454af0533b460b2afc316fe115)
       else()
         set(SUBDIR "python-${PYTHON_VERSION}-x64")
         set(URL "https://www.python.org/ftp/python/${PYTHON_VERSION}/python-${PYTHON_VERSION}.amd64.msi")
         set(ARCHIVE "python-${PYTHON_VERSION}.amd64.msi")
-        set(HASH 47c1518d1da939e3ba6722c54747778b93a44c525bcb358b253c23b2510374a49a43739c8d0454cedade858f54efa6319763ba33316fdc721305bc457efe4ffb)
+        set(HASH 6a81a413b80fd39893e7444fd47efa455d240cbb77a456c9d12f7cf64962b38c08cfa244cd9c50a65947c40f936c6c8c5782f7236d7b92445ab3dd01e82af23e)
       endif()
       set(PATHS ${DOWNLOADS}/tools/python/${SUBDIR})
+    elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
+      # macOS includes Python 2.7 built-in as `python`
+      set(PROGNAME python)
+      set(BREW_PACKAGE_NAME "python2")
     else()
       set(PROGNAME python2)
-      set(BREW_PACKAGE_NAME "python2")
       set(APT_PACKAGE_NAME "python")
     endif()
   elseif(VAR MATCHES "RUBY")
     set(PROGNAME "ruby")
-    set(PATHS ${DOWNLOADS}/tools/ruby/rubyinstaller-2.6.3-1-x86/bin)
-    set(URL https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.6.3-1/rubyinstaller-2.6.3-1-x86.7z)
-    set(ARCHIVE rubyinstaller-2.6.3-1-x86.7z)
-    set(HASH 4322317dd02ce13527bf09d6e6a7787ca3814ea04337107d28af1ac360bd272504b32e20ed3ea84eb5b21dae7b23bfe5eb0e529b6b0aa21a1a2bbb0a542d7aec)
+    set(RUBY_VERSION 2.7.4-1)
+    set(PATHS ${DOWNLOADS}/tools/ruby/rubyinstaller-${RUBY_VERSION}-x86/bin)
+    set(URL https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-${RUBY_VERSION}/rubyinstaller-${RUBY_VERSION}-x86.7z)
+    set(ARCHIVE rubyinstaller-${RUBY_VERSION}-x86.7z)
+    set(HASH 4bf459c987b407bdda328c52d95060bf6ad48fc3e5ed5f64d4b205c5b4153c7a00cb6f9da6c0bcd5f2e001e9dc3dda0b72269ec4afdeffd658b93c085cd1d859)
   elseif(VAR MATCHES "JOM")
     set(PROGNAME jom)
     set(SUBDIR "jom-1.1.3")
@@ -211,19 +217,19 @@ function(vcpkg_find_acquire_program VAR)
     set(HASH f73b04e2d9f29d4393fde572dcf3c3f0f6fa27e747e5df292294ab7536ae24c239bf917689d71eb10cc49f6b9a4ace26d7c122ee887d93cc935f268c404e9067)
   elseif(VAR MATCHES "NINJA")
     set(PROGNAME ninja)
-    set(NINJA_VERSION 1.10.0)
+    set(NINJA_VERSION 1.10.2)
     set(_vfa_SUPPORTED ON)
     if(CMAKE_HOST_WIN32)
       set(ARCHIVE "ninja-win-${NINJA_VERSION}.zip")
       set(SUBDIR "${NINJA_VERSION}-windows")
       set(URL "https://github.com/ninja-build/ninja/releases/download/v${NINJA_VERSION}/ninja-win.zip")
-      set(HASH a196e243c53daa1df9d287af658d6d38d6b830b614f2d5704e8c88ffc61f179a533ae71cdb6d0d383d1559d65dacccbaaab270fb2a33aa211e5dba42ff046f97)
+      set(HASH 6004140d92e86afbb17b49c49037ccd0786ce238f340f7d0e62b4b0c29ed0d6ad0bab11feda2094ae849c387d70d63504393714ed0a1f4d3a1f155af7a4f1ba3)
     elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
       set(ARCHIVE "ninja-mac-${NINJA_VERSION}.zip")
       set(URL "https://github.com/ninja-build/ninja/releases/download/v${NINJA_VERSION}/ninja-mac.zip")
       set(SUBDIR "${NINJA_VERSION}-osx")
       set(PATHS "${DOWNLOADS}/tools/ninja-${NINJA_VERSION}-osx")
-      set(HASH 619a1924067a0b30fc5f8887f868d3ee5481838d2f0f158d031f7614a2a10b95a73d4a56b658d5d560283ebf809e2e536b968c6c01ff0108075c3f393f5780ba)
+      set(HASH bcd12f6a3337591306d1b99a7a25a6933779ba68db79f17c1d3087d7b6308d245daac08df99087ff6be8dc7dd0dcdbb3a50839a144745fa719502b3a7a07260b)
     elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "FreeBSD")
       set(PATHS "${DOWNLOADS}/tools/${SUBDIR}-freebsd")
       set(_vfa_SUPPORTED OFF)
@@ -232,30 +238,34 @@ function(vcpkg_find_acquire_program VAR)
       set(URL "https://github.com/ninja-build/ninja/releases/download/v${NINJA_VERSION}/ninja-linux.zip")
       set(SUBDIR "${NINJA_VERSION}-linux")
       set(PATHS "${DOWNLOADS}/tools/ninja-${NINJA_VERSION}-linux")
-      set(HASH ffb179ab8ea315167fcc99a8f13286e1363590185b18cf819cc73e09f2a7553790e9dc45fd1ccd0bd1d2dbf543aee3f6c0951cf9ce453a7168ffd2ac873cdd29)
+      set(HASH 93e802e9c17fb59636cddde4bad1ddaadad624f4ecfee00d5c78790330a4e9d433180e795718cda27da57215ce643c3929cf72c85337ee019d868c56f2deeef3)
     endif()
     set(VERSION_CMD --version)
   elseif(VAR MATCHES "NUGET")
     set(PROGNAME nuget)
-    set(SUBDIR "5.5.1")
+    set(SUBDIR "5.10.0")
     set(PATHS "${DOWNLOADS}/tools/nuget-${SUBDIR}-windows")
     set(BREW_PACKAGE_NAME "nuget")
-    set(URL "https://dist.nuget.org/win-x86-commandline/v5.5.1/nuget.exe")
+    set(URL "https://dist.nuget.org/win-x86-commandline/v5.10.0/nuget.exe")
     set(_vfa_RENAME "nuget.exe")
-    set(ARCHIVE "nuget.5.5.1.exe")
+    set(ARCHIVE "nuget.5.10.0.exe")
     set(NOEXTRACT ON)
-    set(HASH 22ea847d8017cd977664d0b13c889cfb13c89143212899a511be217345a4e243d4d8d4099700114a11d26a087e83eb1a3e2b03bdb5e0db48f10403184cd26619)
+    set(HASH c4b7375e46cdb843096ce491b9809e0dc86773ba7b6333f13d49ec414b2953112df82ee8b833fd31be0cc7fe0fff1af88f3c07aa9553ad03f7f6c5a6eec2057e)
   elseif(VAR MATCHES "MESON")
-    set(MESON_VERSION 0.55.1)
+    set(MESON_VERSION 0.58.1)
     set(PROGNAME meson)
     set(REQUIRED_INTERPRETER PYTHON3)
     set(APT_PACKAGE_NAME "meson")
     set(BREW_PACKAGE_NAME "meson")
     set(SCRIPTNAME meson meson.py)
-    set(PATHS ${DOWNLOADS}/tools/meson/meson-${MESON_VERSION})
-    set(URL "https://github.com/mesonbuild/meson/releases/download/${MESON_VERSION}/meson-${MESON_VERSION}.tar.gz")
-    set(ARCHIVE "meson-${MESON_VERSION}.tar.gz")
-    set(HASH 172b4de8c7474d709f172431b89bf2b2b1c2c38bc842039cccf6be075a45bd3509a1dab8512bc5b2ee025d65d8050d2f717dd15c1f9be17fca3b2e7da0d3e889)
+    set(REF aeda7f249c4a5dbbecc52e44f382246a2377b5b0)
+    set(PATHS ${DOWNLOADS}/tools/meson/meson-${REF})
+    set(URL "https://github.com/mesonbuild/meson/archive/${REF}.tar.gz")
+    set(ARCHIVE "meson-${REF}.tar.gz")
+    #set(PATHS ${DOWNLOADS}/tools/meson/meson-${MESON_VERSION})
+    #set(URL "https://github.com/mesonbuild/meson/releases/download/${MESON_VERSION}/meson-${MESON_VERSION}.tar.gz")
+    #set(ARCHIVE "meson-${MESON_VERSION}.tar.gz")
+    set(HASH 18a012a45274dbb4582e99fd69d920f38831e788d9860f9553c64847bedb1c2010ae0b5c0ef4a4350c03f5e0f95aaa0395378e1208109b59640c1a70b1e202d2)
     set(_vfa_SUPPORTED ON)
     set(VERSION_CMD --version)
   elseif(VAR MATCHES "FLEX" OR VAR MATCHES "BISON")
@@ -290,9 +300,10 @@ function(vcpkg_find_acquire_program VAR)
     endif()
   elseif(VAR MATCHES "CLANG")
     set(PROGNAME clang)
-    set(SUBDIR "clang-10.0.0")
+    set(SUBDIR "clang-12.0.0")
+    set(LLVM_VERSION 12.0.0)
     if(CMAKE_HOST_WIN32)
-      set(PATHS 
+      set(PATHS
         # Support LLVM in Visual Studio 2019
         "$ENV{LLVMInstallDir}/x64/bin"
         "$ENV{LLVMInstallDir}/bin"
@@ -306,15 +317,15 @@ function(vcpkg_find_acquire_program VAR)
       else()
         set(HOST_ARCH_ $ENV{PROCESSOR_ARCHITECTURE})
       endif()
-      
+
       if(HOST_ARCH_ MATCHES "64")
-        set(URL "https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/LLVM-10.0.0-win64.exe")
-        set(ARCHIVE "LLVM-10.0.0-win64.7z.exe")
-        set(HASH 3603a4be3548dabc7dda94f3ed4384daf8a94337e44ee62c0d54776c79f802b0cb98fc106e902409942e841c39bc672cc6d61153737ad1cc386b609ef25db71c)
+        set(URL "https://github.com/llvm/llvm-project/releases/download/llvmorg-${LLVM_VERSION}/LLVM-${LLVM_VERSION}-win64.exe")
+        set(ARCHIVE "LLVM-${LLVM_VERSION}-win64.7z.exe")
+        set(HASH 67a9b54abad5143fa5f79f0cfc184be1394c9fc894fa9cee709943cb6ccbde8f0ea6003d8fcc20eccf035631abe4009cc0f694ac84e7879331cebba8125e4c7f)
       else()
-        set(URL "https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/LLVM-10.0.0-win32.exe")
-        set(ARCHIVE "LLVM-10.0.0-win32.7z.exe")
-        set(HASH 8494922b744ca0dc8d075a1d3a35a0db5a9287544afd5c4984fa328bc26f291209f6030175896b4895019126f5832045e06d8ad48072b549916df29a2228348b)
+        set(URL "https://github.com/llvm/llvm-project/releases/download/llvmorg-${LLVM_VERSION}/LLVM-${LLVM_VERSION}-win32.exe")
+        set(ARCHIVE "LLVM-${LLVM_VERSION}-win32.7z.exe")
+        set(HASH 92fa5252fd08c1414ee6d71e2544cd2c44872124c47225f8d98b3af711d20e699f2888bc30642dfd00e005013da1607a593674fb4878951cc434694f9a119199)
       endif()
     endif()
     set(BREW_PACKAGE_NAME "llvm")
@@ -329,14 +340,14 @@ function(vcpkg_find_acquire_program VAR)
   elseif(VAR MATCHES "GASPREPROCESSOR")
     set(NOEXTRACT true)
     set(PROGNAME gas-preprocessor)
-    set(SUBDIR "b5ea3a50")
+    set(SUBDIR "4daa6115")
     set(REQUIRED_INTERPRETER PERL)
     set(SCRIPTNAME "gas-preprocessor.pl")
     set(PATHS ${DOWNLOADS}/tools/gas-preprocessor/${SUBDIR})
     set(_vfa_RENAME "gas-preprocessor.pl")
-    set(URL "https://raw.githubusercontent.com/FFmpeg/gas-preprocessor/b5ea3a50ed991e6a3218e89402a8162c73f59cb2/gas-preprocessor.pl")
+    set(URL "https://raw.githubusercontent.com/FFmpeg/gas-preprocessor/4daa611556a0558dfe537b4f7ad80f7e50a079c1/gas-preprocessor.pl")
     set(ARCHIVE "gas-preprocessor-${SUBDIR}.pl")
-    set(HASH 3a42a90dee09f3c8653d043d848057287f7460806a08f9471131d0c546ba541bdfa4efa3019e7ffc57a6c20538f1034f7a53b30ecaad9db5add7c71d8de35db9)
+    set(HASH 2737ba3c1cf85faeb1fbfe015f7bad170f43a857a50a1b3d81fa93ba325d481f73f271c5a886ff8b7eef206662e19f0e9ef24861dfc608b67b8ea8a2062dc061)
   elseif(VAR MATCHES "DARK")
     set(PROGNAME dark)
     set(SUBDIR "wix311-binaries")
@@ -346,55 +357,46 @@ function(vcpkg_find_acquire_program VAR)
     set(HASH 74f0fa29b5991ca655e34a9d1000d47d4272e071113fada86727ee943d913177ae96dc3d435eaf494d2158f37560cd4c2c5274176946ebdb17bf2354ced1c516)
   elseif(VAR MATCHES "SCONS")
     set(PROGNAME scons)
-    set(SCONS_VERSION 3.0.1)
+    set(SCONS_VERSION 4.1.0)
     set(SUBDIR ${SCONS_VERSION})
     set(REQUIRED_INTERPRETER PYTHON2)
     set(SCRIPTNAME "scons.py")
     set(URL "https://sourceforge.net/projects/scons/files/scons-local-${SCONS_VERSION}.zip/download")
     set(ARCHIVE "scons-local-${SCONS_VERSION}.zip")
-    set(HASH fe121b67b979a4e9580c7f62cfdbe0c243eba62a05b560d6d513ac7f35816d439b26d92fc2d7b7d7241c9ce2a49ea7949455a17587ef53c04a5f5125ac635727) 
+    set(HASH b173176ce8aca25039c64fcc68ec1b9ad31e03a926fd545e7631b3f9b374d914adffc593f505e3e7e2867b0ffe85e8deb0b39afe314edf05d02974ce5db1badb)
   elseif(VAR MATCHES "SWIG")
-    set(VERSION 4.0.2)
+    set(SWIG_VERSION 4.0.2)
     set(PROGNAME swig)
     if(CMAKE_HOST_WIN32)
-        #set(URL "https://sourceforge.net/projects/swig/files/swigwin/swigwin-${VERSION}/swigwin-${VERSION}.zip/download")
-        set(ARCHIVE "swigwin-${VERSION}.zip")
-        set(HASH b8f105f9b9db6acc1f6e3741990915b533cd1bc206eb9645fd6836457fd30789b7229d2e3219d8e35f2390605ade0fbca493ae162ec3b4bc4e428b57155db03d) 
-        set(SUBDIR b8f105f9b9-f0518bc3b7/swigwin-${VERSION})
-        #set(SUBDIR "swigwin-${VERSION}")
-        #set(PATHS "${DOWNLOADS}/tools/swig/swigwin-${VERSION}")
-    else()
-        #Not used
-        set(_vfa_SUPPORTED TRUE)
-        set(URL https://sourceforge.net/projects/swig/files/swig/swig-${VERSION}/swig-${VERSION}.tar.gz/download)
-        set(ARCHIVE "swig-${VERSION}.tar.gz")
-        set(HASH 05e7da70ce6d9a733b96c0bcfa3c1b82765bd859f48c74759bbf4bb1467acb1809caa310cba5e2b3280cd704fca249eaa0624821dffae1d2a75097c7f55d14ed) 
-        set(SUBDIR "swig-${VERSION}")
-        set(PATHS "${DOWNLOADS}/tools/swig/${SUBDIR}")
-    endif()
-    set(SOURCEFORGE_ARGS
+      set(SOURCEFORGE_ARGS
         REPO swig/swigwin
-        REF swigwin-${VERSION}
-        FILENAME "${ARCHIVE}"
-        SHA512 "${HASH}"
+        REF swigwin-${SWIG_VERSION}
+        FILENAME "swigwin-${SWIG_VERSION}.zip"
+        SHA512 b8f105f9b9db6acc1f6e3741990915b533cd1bc206eb9645fd6836457fd30789b7229d2e3219d8e35f2390605ade0fbca493ae162ec3b4bc4e428b57155db03d
         NO_REMOVE_ONE_LEVEL
         WORKING_DIRECTORY "${DOWNLOADS}/tools/swig"
-     )
+      )
+      set(SUBDIR b8f105f9b9-f0518bc3b7/swigwin-${SWIG_VERSION})
+    else()
+      set(APT_PACKAGE_NAME "swig")
+      set(BREW_PACKAGE_NAME "swig")
+    endif()
+
   elseif(VAR MATCHES "DOXYGEN")
     set(PROGNAME doxygen)
-    set(DOXYGEN_VERSION 1.8.17)
+    set(DOXYGEN_VERSION 1.9.1)
     set(SOURCEFORGE_ARGS
         REPO doxygen
         REF rel-${DOXYGEN_VERSION}
         FILENAME "doxygen-${DOXYGEN_VERSION}.windows.bin.zip"
-        SHA512 6bac47ec552486783a70cc73b44cf86b4ceda12aba6b52835c2221712bd0a6c845cecec178c9ddaa88237f5a781f797add528f47e4ed017c7888eb1dd2bc0b4b
+        SHA512 c3eeb6b9fa4eab70fb6b0864fbbf94fb8050f3fee38d117cf470921a80e3569cc1c8b0272604d6731e05f01790cfaa70e159bec5d0882fc4f2d8ae4a5d52a21b
         NO_REMOVE_ONE_LEVEL
         WORKING_DIRECTORY "${DOWNLOADS}/tools/doxygen"
      )
-    set(SUBDIR 6bac47ec55-25c819fd77)
+    set(SUBDIR c3eeb6b9fa-76d69c6db5)
   elseif(VAR MATCHES "BAZEL")
     set(PROGNAME bazel)
-    set(BAZEL_VERSION 0.25.2)
+    set(BAZEL_VERSION 4.1.0)
     set(_vfa_RENAME "bazel")
     if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
       set(_vfa_SUPPORTED ON)
@@ -402,64 +404,59 @@ function(vcpkg_find_acquire_program VAR)
       set(URL "https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${SUBDIR}-x86_64")
       set(ARCHIVE "bazel-${SUBDIR}-x86_64")
       set(NOEXTRACT ON)
-      set(HASH db4a583cf2996aeb29fd008261b12fe39a4a5faf0fbf96f7124e6d3ffeccf6d9655d391378e68dd0915bc91c9e146a51fd9661963743857ca25179547feceab1)
+      set(HASH 50aa0894dbeedb9189a56f17baa8cecfa55c5f9c1f93a61b9ab5e10984754a400884fc9802b4979f536778e15f813a72807396b4b47694e4c05eadb841361c69)
     elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
       set(_vfa_SUPPORTED ON)
       set(SUBDIR ${BAZEL_VERSION}-darwin)
       set(URL "https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${SUBDIR}-x86_64")
       set(ARCHIVE "bazel-${SUBDIR}-x86_64")
       set(NOEXTRACT ON)
-      set(HASH 420a37081e6ee76441b0d92ff26d1715ce647737ce888877980d0665197b5a619d6afe6102f2e7edfb5062c9b40630a10b2539585e35479b780074ada978d23c)
+      set(HASH 3500560c9d49d37a1ead2d2777d673c6f1874582883e141ecd5b3991005b1b6b8aab5f255c187133d771497c2a956f5c1e0dfad04dc453525634537e65b649af)
     else()
       set(SUBDIR ${BAZEL_VERSION}-windows)
       set(URL "https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${SUBDIR}-x86_64.zip")
       set(ARCHIVE "bazel-${SUBDIR}-x86_64.zip")
-      set(HASH 6482f99a0896f55ef65739e7b53452fd9c0adf597b599d0022a5e0c5fa4374f4a958d46f98e8ba25af4b065adacc578bfedced483d8c169ea5cb1777a99eea53)
+      set(HASH 3954ab54b465d62eef397767dac7ce21d06ac8ea3e1571d0e7b1f0ea8b5c2cf44eea5d252b85a63a1e1a08dbe9a219783cc23c2888673c35e2df03edfdc9e5a7)
     endif()
   elseif(VAR MATCHES "ARIA2")
     set(PROGNAME aria2c)
-    set(ARIA2_VERSION 1.34.0)
+    set(ARIA2_VERSION 1.35.0)
     set(PATHS ${DOWNLOADS}/tools/aria2c/aria2-${ARIA2_VERSION}-win-32bit-build1)
     set(URL "https://github.com/aria2/aria2/releases/download/release-${ARIA2_VERSION}/aria2-${ARIA2_VERSION}-win-32bit-build1.zip")
     set(ARCHIVE "aria2-${ARIA2_VERSION}-win-32bit-build1.zip")
-    set(HASH 2a5480d503ac6e8203040c7e516a3395028520da05d0ebf3a2d56d5d24ba5d17630e8f318dd4e3cc2094cc4668b90108fb58e8b986b1ffebd429995058063c27)
+    set(HASH 933537cad820b1cecf43a9eeca7e1b241dd7b1c902ee942441a166f2c38845f16046321efbdfa2f83c7e9fc50c7ecc5da6fd00e0c6e2124c07d3b783aa5092a4)
   elseif(VAR MATCHES "PKGCONFIG")
     set(PROGNAME pkg-config)
-    set(VERSION 0.29.2-1)
-    set(LIBWINPTHREAD_VERSION git-8.0.0.5906.c9a21571-1)
     if(ENV{PKG_CONFIG})
       debug_message(STATUS "PKG_CONFIG found in ENV! Using $ENV{PKG_CONFIG}")
       set(PKGCONFIG $ENV{PKG_CONFIG} PARENT_SCOPE)
       return()
+    elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "OpenBSD")
+      # As of 6.8, the OpenBSD specific pkg-config doesn't support {pcfiledir}
+      set(_vfa_SUPPORTED ON)
+      set(_vfa_RENAME "pkg-config")
+      set(PKGCONFIG_VERSION 0.29.2.1)
+      set(NOEXTRACT ON)
+      set(ARCHIVE "pkg-config.openbsd")
+      set(SUBDIR "openbsd")
+      set(URL "https://raw.githubusercontent.com/jgilje/pkg-config-openbsd/master/pkg-config")
+      set(HASH b7ec9017b445e00ae1377e36e774cf3f5194ab262595840b449832707d11e443a102675f66d8b7e8b2e2f28cebd6e256835507b1e0c69644cc9febab8285080b)
+      set(VERSION_CMD --version)
     elseif(CMAKE_HOST_WIN32)
-      set(PROG_PATH_SUBDIR "${DOWNLOADS}/tools/${PROGNAME}/${VERSION}")
-      set(PKGCONFIG "${PROG_PATH_SUBDIR}/mingw32/bin/pkg-config.exe")
       if(NOT EXISTS "${PKGCONFIG}")
-        vcpkg_download_distfile(PKGCONFIG_ARCHIVE
-          URLS "https://repo.msys2.org/mingw/i686/mingw-w64-i686-pkg-config-${VERSION}-any.pkg.tar.xz"
-          SHA512 3b1b706a24d9aef7bbdf3ce4427aaa813ba6fbd292ed9dda181b4300e117c3d59a159ddcca8b013fd01ce76da2d95d590314ff9628c0d68a6966bac4842540f0
-          FILENAME mingw-w64-i686-pkg-config-${VERSION}-any.pkg.tar.xz
+        set(VERSION 0.29.2-2)
+        set(LIBWINPTHREAD_VERSION git-8.0.0.5906.c9a21571-1)
+        vcpkg_acquire_msys(
+          PKGCONFIG_ROOT
+          NO_DEFAULT_PACKAGES
+          DIRECT_PACKAGES
+            "https://repo.msys2.org/mingw/i686/mingw-w64-i686-pkg-config-${VERSION}-any.pkg.tar.zst"
+            54f8dad3b1a36a4515db47825a3214fbd2bd82f604aec72e7fb8d79068095fda3c836fb2296acd308522d6e12ce15f69e0c26dcf4eb0681fd105d057d912cdb7
+            "https://repo.msys2.org/mingw/i686/mingw-w64-i686-libwinpthread-${LIBWINPTHREAD_VERSION}-any.pkg.tar.zst"
+            2c3d9e6b2eee6a4c16fd69ddfadb6e2dc7f31156627d85845c523ac85e5c585d4cfa978659b1fe2ec823d44ef57bc2b92a6127618ff1a8d7505458b794f3f01c
         )
-        vcpkg_download_distfile(LIBWINPTHREAD_ARCHIVE
-          URLS "https://repo.msys2.org/mingw/i686/mingw-w64-i686-libwinpthread-${LIBWINPTHREAD_VERSION}-any.pkg.tar.zst"
-          SHA512 2c3d9e6b2eee6a4c16fd69ddfadb6e2dc7f31156627d85845c523ac85e5c585d4cfa978659b1fe2ec823d44ef57bc2b92a6127618ff1a8d7505458b794f3f01c
-          FILENAME mingw-w64-i686-libwinpthread-${LIBWINPTHREAD_VERSION}-any.pkg.tar.zst
-        )
-        file(REMOVE_RECURSE ${PROG_PATH_SUBDIR} ${PROG_PATH_SUBDIR}.tmp)
-        file(MAKE_DIRECTORY ${PROG_PATH_SUBDIR}.tmp)
-        vcpkg_execute_required_process(
-          ALLOW_IN_DOWNLOAD_MODE
-          COMMAND ${CMAKE_COMMAND} -E tar xzf ${LIBWINPTHREAD_ARCHIVE}
-          WORKING_DIRECTORY ${PROG_PATH_SUBDIR}.tmp
-        )
-        vcpkg_execute_required_process(
-          ALLOW_IN_DOWNLOAD_MODE
-          COMMAND ${CMAKE_COMMAND} -E tar xzf ${PKGCONFIG_ARCHIVE}
-          WORKING_DIRECTORY ${PROG_PATH_SUBDIR}.tmp
-        )
-        file(RENAME ${PROG_PATH_SUBDIR}.tmp ${PROG_PATH_SUBDIR})
       endif()
-      set(${VAR} "${${VAR}}" PARENT_SCOPE)
+      set(${VAR} "${PKGCONFIG_ROOT}/mingw32/bin/pkg-config.exe" PARENT_SCOPE)
       return()
     else()
       set(BREW_PACKAGE_NAME pkg-config)
@@ -472,22 +469,23 @@ function(vcpkg_find_acquire_program VAR)
 
   macro(do_version_check)
     if(VERSION_CMD)
-        _execute_process(
+        vcpkg_execute_in_download_mode(
             COMMAND ${${VAR}} ${VERSION_CMD}
-            WORKING_DIRECTORY ${DOWNLOADS}
+            WORKING_DIRECTORY ${VCPKG_ROOT_DIR}
             OUTPUT_VARIABLE ${VAR}_VERSION_OUTPUT
         )
         string(STRIP "${${VAR}_VERSION_OUTPUT}" ${VAR}_VERSION_OUTPUT)
         #TODO: REGEX MATCH case for more complex cases!
         if(NOT ${VAR}_VERSION_OUTPUT VERSION_GREATER_EQUAL ${VAR}_VERSION)
             message(STATUS "Found ${PROGNAME}('${${VAR}_VERSION_OUTPUT}') but at least version ${${VAR}_VERSION} is required! Trying to use internal version if possible!")
+            unset(${VAR})
             set(${VAR} "${VAR}-NOTFOUND" CACHE INTERNAL "")
         else()
             message(STATUS "Found external ${PROGNAME}('${${VAR}_VERSION_OUTPUT}').")
         endif()
     endif()
   endmacro()
-  
+
   macro(do_find)
     if(NOT DEFINED REQUIRED_INTERPRETER)
       find_program(${VAR} ${PROGNAME} PATHS ${PATHS} NO_DEFAULT_PATH)
@@ -527,6 +525,10 @@ function(vcpkg_find_acquire_program VAR)
   endif()
   if(DEFINED SUBDIR)
     list(APPEND PATHS ${PROG_PATH_SUBDIR})
+  endif()
+  if("${PROG_PATH_SUBDIR}" MATCHES [[^(.*)[/\\]$]])
+    # remove trailing slash, which may turn into a trailing `\` which CMake _does not like_
+    set(PROG_PATH_SUBDIR "${CMAKE_MATCH_1}")
   endif()
 
   do_find()

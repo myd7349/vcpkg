@@ -12,16 +12,14 @@ vcpkg_add_to_path("${PYTHON3_DIR}")
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO facebook/folly
-    REF 8874256376d2f8a32867f17c9472a446d6707604 #2019.10.21.00
-    SHA512 96dfdde34697b72e8eb88431d742fffa337fc9146677d63cf0331dc5e4cd341fb00b88edf3781488e3194fa41525e70a6729e1bb6657f224cd1969deea9b468c
+    REF v2021.06.14.00
+    SHA512 aee5adc1a44d9b193f3f41b5fc9fa7575c677d8bf27ed3a3b612a2fbe53505f82481ce78f13fb41ae3ca81ca25446426fbdfdc578f503f919b4af5abe56ad71c
     HEAD_REF master
     PATCHES
-        missing-include-atomic.patch
         reorder-glog-gflags.patch
         disable-non-underscore-posix-names.patch
         boost-1.70.patch
-        fix-addbit.patch
-        folly_c3861.patch
+        fix-windows-minmax.patch
 )
 
 file(COPY

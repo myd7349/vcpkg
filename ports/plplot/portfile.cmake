@@ -12,6 +12,7 @@ vcpkg_from_sourceforge(
       install-interface-include-directories.patch
       use-math-h-nan.patch
       fix_utils.patch
+      fix-pkg-config.patch
 )
 
 set(BUILD_with_wxwidgets OFF)
@@ -24,10 +25,11 @@ vcpkg_configure_cmake(
     PREFER_NINJA
     OPTIONS
         -DENABLE_tcl=OFF
-        -DPL_HAVE_QHULL=OFF
+        -DENABLE_d=OFF
         -DENABLE_qt=OFF
-        -DPLPLOT_USE_QT5=OFF
         -DENABLE_ocaml=OFF
+        -DPL_HAVE_QHULL=OFF
+        -DPLPLOT_USE_QT5=OFF
         -DPL_DOUBLE=ON
         -DPLD_wxwidgets=${BUILD_with_wxwidgets}
         -DENABLE_DYNDRIVERS=OFF

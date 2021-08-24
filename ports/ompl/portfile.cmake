@@ -1,25 +1,20 @@
 vcpkg_buildpath_length_warning(37)
 
-set(OMPL_VERSION 1.5.0)
+set(OMPL_VERSION 1.5.1)
 
-if("app" IN_LIST FEATURES)
-    vcpkg_download_distfile(ARCHIVE
-        URLS "https://github.com/ompl/omplapp/releases/download/1.5.0/omplapp-1.5.0-Source.tar.gz"
-        FILENAME "omplapp-${OMPL_VERSION}.tar.gz"
-        SHA512 ad221b67146915cb63be6731ca2fa7d827d85b7fd175d87ee64c799311dfe4878935881b1ae6447357fdd178f70c9aa01b178e857261a8d8769affa1e58ed72b
-    )
-else()
-    vcpkg_download_distfile(ARCHIVE
-        URLS "https://github.com/ompl/ompl/archive/1.5.0.tar.gz"
-        FILENAME "ompl-${OMPL_VERSION}.tar.gz"
-        SHA512 a300682fa0af40768c93e44b819c677b6121812e4f968ad89b5ae4044f3171a7febca63fa5645f2ad0f99ec3dfb3b02fe8c7443c4e389bf19a4a4bc9c7a5d013
-    )
-endif()
+vcpkg_download_distfile(ARCHIVE
+    URLS "https://github.com/ompl/ompl/archive/1.5.1.tar.gz"
+    FILENAME "ompl-${OMPL_VERSION}.tar.gz"
+    SHA512 2f28d29f32f3bb03e67b29ce251e4786364847a25e3c4cf66d7663ed38dca4da71d4e03cf9ce647710d9524a3907c76c09795e77f041cb8822f695d28f5ca570
+)
 
 vcpkg_extract_source_archive_ex(
     OUT_SOURCE_PATH SOURCE_PATH
     ARCHIVE ${ARCHIVE}
     REF ${OMPL_VERSION}
+    PATCHES
+        0001_Export_targets.patch
+        0002_Fix_config.patch
 )
 
 # Based on selected features different files get downloaded, so use the following command instead of patch.
@@ -54,17 +49,6 @@ file(REMOVE_RECURSE
     ${CURRENT_PACKAGES_DIR}/share/ompl/ompl.conf
     ${CURRENT_PACKAGES_DIR}/share/ompl/plannerarena
 )
-if ("app" IN_LIST FEATURES)
-    file(MAKE_DIRECTORY ${CURRENT_PACKAGES_DIR}/tools/ompl)
-    file(RENAME ${CURRENT_PACKAGES_DIR}/bin/ompl_benchmark.exe ${CURRENT_PACKAGES_DIR}/tools/ompl/ompl_benchmark.exe)
-    file(REMOVE_RECURSE
-        ${CURRENT_PACKAGES_DIR}/bin
-        ${CURRENT_PACKAGES_DIR}/debug/bin
-        ${CURRENT_PACKAGES_DIR}/include/omplapp/CMakeFiles
-        ${CURRENT_PACKAGES_DIR}/share/ompl/resources
-        ${CURRENT_PACKAGES_DIR}/share/ompl/webapp
-    )
-endif()
 
 if(VCPKG_LIBRARY_LINKAGE STREQUAL "static")
     file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/bin" "${CURRENT_PACKAGES_DIR}/debug/bin")

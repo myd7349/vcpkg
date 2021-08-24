@@ -14,6 +14,7 @@ vcpkg_extract_source_archive_ex(
         "cmake_dont_build_more_than_needed.patch"
         "0001-Prevent-invalid-inclusions-when-HAVE_-is-set-to-0.patch"
         "add_debug_postfix_on_mingw.patch"
+        "0002-android-build-mingw.patch"
 )
 
 # This is generated during the cmake build
@@ -30,6 +31,7 @@ vcpkg_configure_cmake(
 )
 
 vcpkg_install_cmake()
+file(INSTALL ${CMAKE_CURRENT_LIST_DIR}/vcpkg-cmake-wrapper.cmake DESTINATION ${CURRENT_PACKAGES_DIR}/share/${PORT})
 
 # Install the pkgconfig file
 if(NOT DEFINED VCPKG_BUILD_TYPE OR VCPKG_BUILD_TYPE STREQUAL "release")
@@ -52,5 +54,3 @@ file(INSTALL ${CMAKE_CURRENT_LIST_DIR}/LICENSE DESTINATION ${CURRENT_PACKAGES_DI
 vcpkg_copy_pdbs()
 
 file(COPY ${CMAKE_CURRENT_LIST_DIR}/usage DESTINATION ${CURRENT_PACKAGES_DIR}/share/${PORT})
-
-# vcpkg_test_cmake(PACKAGE_NAME ZLIB MODULE)

@@ -1,15 +1,13 @@
 vcpkg_from_sourceforge(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO qwt/qwt
-    REF 6.1.4
-    FILENAME "qwt-6.1.4.zip"
-    SHA512 711256ec4d1d54d201650e9c63b584b17a61dbedde5a581e0b6227fdbee149cdbe2a889aa58f67777125b6471fc1fe248992ec845eb6481a2dfc2c4276701d7f
-    PATCHES fix-dynamic-static.patch
-            build.patch
+    REF 6.2.0
+    FILENAME "qwt-6.2.0.zip"
+    SHA512 a3946c6e23481b5a2193819a1c1298db5a069d514ca60de54accb3a249403f5acd778172ae6fae24fae252767b1e58deba524de6225462f1bafd7c947996aae9
 )
 
 vcpkg_configure_qmake(
-    SOURCE_PATH ${SOURCE_PATH}
+    SOURCE_PATH "${SOURCE_PATH}"
     OPTIONS
         CONFIG+=${VCPKG_LIBRARY_LINKAGE}
 )
@@ -26,9 +24,13 @@ else ()
     )
 endif()
 
+if(VCPKG_LIBRARY_LINKAGE STREQUAL "static")
+        file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/bin" "${CURRENT_PACKAGES_DIR}/debug/bin")
+endif()
+
 #Install the header files
-file(GLOB HEADER_FILES ${SOURCE_PATH}/src/*.h)
-file(INSTALL ${HEADER_FILES} DESTINATION ${CURRENT_PACKAGES_DIR}/include/${PORT})
+file(GLOB HEADER_FILES "${SOURCE_PATH}/src/*.h")
+file(INSTALL ${HEADER_FILES} DESTINATION "${CURRENT_PACKAGES_DIR}/include/${PORT}")
 
 # Handle copyright
-file(INSTALL ${SOURCE_PATH}/COPYING DESTINATION ${CURRENT_PACKAGES_DIR}/share/${PORT} RENAME copyright)
+file(INSTALL "${SOURCE_PATH}/COPYING" DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}" RENAME copyright)

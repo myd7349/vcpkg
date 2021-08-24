@@ -17,7 +17,8 @@ vcpkg_extract_source_archive_ex(
 
 if (VCPKG_TARGET_IS_WINDOWS)
     vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
-        private-headers   INSTALL_PRIVATE_H
+        FEATURES
+            private-headers INSTALL_PRIVATE_H
     )
 
     vcpkg_configure_cmake(
@@ -64,6 +65,7 @@ else()
     else()
         message(STATUS "Configuring apr")
     endif()
+    set(ENV{CFLAGS} "$ENV{CFLAGS} -Wno-error=implicit-function-declaration")
     vcpkg_configure_make(
         SOURCE_PATH "${SOURCE_PATH}"
         NO_DEBUG

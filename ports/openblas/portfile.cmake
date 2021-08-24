@@ -1,15 +1,15 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO xianyi/OpenBLAS
-    REF v0.3.9
-    SHA512 e34da25b3aaf959ec12826ac68c81e739e453d44f2dba28b15e57d7a827edc4d5f42988e9b6d98ac07999940be7b5876246cb3a980e590ae87f77f4c2f12f40a
+    REF 904f9a267dddb30e9f187e57231ed160ab2f2704 # v0.3.15
+    SHA512 ddb1eba7b0def08483d7610675335648017eff41de3cbe24357bd15c6938c7997f12c449f32d8225abbb5ef8f7a2e7501320ec05e970e8ddf8e4c25fd81e8002 
     HEAD_REF develop
     PATCHES
         uwp.patch
         fix-space-path.patch
         fix-redefinition-function.patch
-        github_2481.patch
-        fix-pkg-config.patch
+        fix-uwp-build.patch
+        fix-marco-conflict.patch
 )
 
 find_program(GIT NAMES git git.cmd)
@@ -25,7 +25,25 @@ set(PATH_BACKUP "$ENV{PATH}")
 vcpkg_add_to_path("${PERL_EXE_PATH}")
 vcpkg_add_to_path("${SED_EXE_PATH}")
 
+vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
+    FEATURES
+        threads         USE_THREAD
+        simplethread    USE_SIMPLE_THREADED_LEVEL3
+)
+
 set(COMMON_OPTIONS -DBUILD_WITHOUT_LAPACK=ON)
+
+vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
+    FEATURES
+    	"dynamic-arch"      DYNAMIC_ARCH
+)
+
+if(VCPKG_TARGET_IS_OSX)
+    if("dynamic-arch" IN_LIST FEATURES)
+        vcpkg_check_linkage(ONLY_DYNAMIC_LIBRARY)
+        message(STATUS "Openblas with \"dynamic-arch\" option for OSX supports only dynamic linkage. It's not a bag of openblas but bug of combination cmake+ninja+osx. See: https://gitlab.kitware.com/cmake/cmake/-/issues/16731") 
+    endif()
+endif()
 
 # for UWP version, must build non uwp first for helper
 # binaries.
@@ -40,7 +58,7 @@ if(VCPKG_TARGET_IS_UWP)
 
     vcpkg_configure_cmake(
         SOURCE_PATH ${SOURCE_PATH}
-        OPTIONS
+        OPTIONS ${FEATURE_OPTIONS}
             ${COMMON_OPTIONS}
             -DTARGET=NEHALEM
     )
@@ -69,15 +87,17 @@ elseif(VCPKG_TARGET_IS_WINDOWS)
         PREFER_NINJA
         SOURCE_PATH ${SOURCE_PATH}
         OPTIONS
-            ${COMMON_OPTIONS})
+            ${COMMON_OPTIONS}
+            ${FEATURE_OPTIONS}
+    )
 else()
-    list(APPEND VCPKG_C_FLAGS "-DNEEDBUNDERSCORE") # Required to get common BLASFUNC to append extra _
-    list(APPEND VCPKG_CXX_FLAGS "-DNEEDBUNDERSCORE")
+    string(APPEND VCPKG_C_FLAGS " -DNEEDBUNDERSCORE") # Required to get common BLASFUNC to append extra _
+    string(APPEND VCPKG_CXX_FLAGS " -DNEEDBUNDERSCORE")
     vcpkg_configure_cmake(
         SOURCE_PATH ${SOURCE_PATH}
         OPTIONS
             ${COMMON_OPTIONS}
-            -DCMAKE_SYSTEM_PROCESSOR=AMD64
+            ${FEATURE_OPTIONS}
             -DNOFORTRAN=ON
             -DBU=_  #required for all blas functions to append extra _ using NAME
             )
