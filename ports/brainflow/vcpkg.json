@@ -1,0 +1,17 @@
+{
+  "name": "brainflow",
+  "version": "5.4.0",
+  "description": "BrainFlow is a library intended to obtain, parse and analyze EEG, EMG, ECG and other kinds of data from biosensors.",
+  "homepage": "https://brainflow.org/",
+  "license": "MIT",
+  "dependencies": [
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "vcpkg-cmake-config",
+      "host": true
+    }
+  ]
+}
