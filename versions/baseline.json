@@ -3389,7 +3389,7 @@
       "port-version": 0
     },
     "kcp": {
-      "baseline": "1.7",
+      "baseline": "2023-01-15",
       "port-version": 0
     },
     "kd-soap": {
