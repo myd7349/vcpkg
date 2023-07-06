@@ -3,12 +3,15 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO lava/matplotlib-cpp
-    REF 70d508fcb7febc66535ba923eac1b1a4e571e4d1
-    SHA512 4da452fc38b6c349a1b08b97775ef2d90354fabd3c8c3a0383f08609b22dea222b7f3e091efc1b833755f6b5c1e8564e675d2ed54cdc21f8b07b1b7bb44a82f4
+    REF ef0383f1315d32e0156335e10b82e90b334f6d9f
+    SHA512 fde0700dc6cd43ca041a684a2ab21ae5228f63b472bce4ecf8ad958bda1344fe05d46836c72af0aa5e5a49d19164c3b84b054f899eb0bbb6bdeb5ad0cab15a60
     HEAD_REF master
 )
 
-file(COPY ${SOURCE_PATH}/matplotlibcpp.h DESTINATION ${CURRENT_PACKAGES_DIR}/include)
+vcpkg_cmake_configure(
+    SOURCE_PATH "${SOURCE_PATH}"
+)
 
-# Handle copyright
-configure_file(${SOURCE_PATH}/LICENSE ${CURRENT_PACKAGES_DIR}/share/${PORT}/copyright COPYONLY)
+vcpkg_cmake_install()
+
+vcpkg_install_copyright(FILE_LIST "${SOURCE_PATH}/LICENSE" "${SOURCE_PATH}/LICENSE.matplotlib")
