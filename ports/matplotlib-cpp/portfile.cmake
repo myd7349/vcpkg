@@ -14,9 +14,7 @@ vcpkg_cmake_configure(
 
 vcpkg_cmake_install()
 
-if("python" IN_LIST FEATURES)
-    vcpkg_cmake_config_fixup(PACKAGE_NAME matplotlib_cpp CONFIG_PATH "lib/matplotlib_cpp/cmake")
-endif()
+vcpkg_cmake_config_fixup(PACKAGE_NAME matplotlib_cpp CONFIG_PATH "lib/matplotlib_cpp/cmake")
 
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug" "${CURRENT_PACKAGES_DIR}/lib")
 
