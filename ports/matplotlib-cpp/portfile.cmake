@@ -14,4 +14,8 @@ vcpkg_cmake_configure(
 
 vcpkg_cmake_install()
 
+vcpkg_cmake_config_fixup(PACKAGE_NAME matplotlib_cpp CONFIG_PATH "lib/matplotlib_cpp/cmake")
+
+file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug" "${CURRENT_PACKAGES_DIR}/lib")
+
 vcpkg_install_copyright(FILE_LIST "${SOURCE_PATH}/LICENSE" "${SOURCE_PATH}/LICENSE.matplotlib")
