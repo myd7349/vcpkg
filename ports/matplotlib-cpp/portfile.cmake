@@ -14,6 +14,20 @@ vcpkg_cmake_configure(
 
 vcpkg_cmake_install()
 
+# MSVC: error C2766: explicit specialization;
+#       'matplotlibcpp::detail::select_npy_type<int64_t>' has already been defined
+#       'matplotlibcpp::detail::select_npy_type<uint64_t>' has already been defined
+vcpkg_replace_string(
+    "${CURRENT_PACKAGES_DIR}/include/matplotlibcpp.h"
+    "template <> struct select_npy_type<long long> { const static NPY_TYPES type = NPY_INT64; };"
+    "//template <> struct select_npy_type<long long> { const static NPY_TYPES type = NPY_INT64; };"
+)
+vcpkg_replace_string(
+    "${CURRENT_PACKAGES_DIR}/include/matplotlibcpp.h"
+    "template <> struct select_npy_type<unsigned long long> { const static NPY_TYPES type = NPY_UINT64; };"
+    "//template <> struct select_npy_type<unsigned long long> { const static NPY_TYPES type = NPY_UINT64; };"
+)
+
 vcpkg_cmake_config_fixup(PACKAGE_NAME matplotlib_cpp CONFIG_PATH "lib/matplotlib_cpp/cmake")
 
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug" "${CURRENT_PACKAGES_DIR}/lib")
