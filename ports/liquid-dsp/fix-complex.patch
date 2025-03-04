@@ -1,0 +1,13 @@
+diff --git a/include/liquid.h b/include/liquid.h
+index e60360c5..473e1b98 100644
+--- a/include/liquid.h
++++ b/include/liquid.h
+@@ -24,7 +24,7 @@
+ 
+ #ifdef __cplusplus
+ extern "C" {
+-#   define LIQUID_USE_COMPLEX_H 0
++#   define LIQUID_USE_COMPLEX_H 1
+ #else
+ #   define LIQUID_USE_COMPLEX_H 1
+ #endif // __cplusplus

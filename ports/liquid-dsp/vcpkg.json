@@ -1,0 +1,17 @@
+{
+  "name": "liquid-dsp",
+  "version": "1.7.0",
+  "description": "Digital signal processing library for software-defined radios.",
+  "homepage": "https://liquidsdr.org/",
+  "license": "MIT",
+  "dependencies": [
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "vcpkg-cmake-config",
+      "host": true
+    }
+  ]
+}
