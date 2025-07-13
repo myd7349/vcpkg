@@ -1,0 +1,23 @@
+{
+  "name": "fcwt",
+  "version-date": "2025-07-13",
+  "description": "The fast Continuous Wavelet Transform (fCWT) is a library for fast calculation of CWT",
+  "homepage": "https://github.com/fastlib/fCWT",
+  "license": "Apache-2.0",
+  "dependencies": [
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "vcpkg-cmake-config",
+      "host": true
+    },
+    {
+      "name": "fftw3",
+      "features": [
+        "threads"
+      ]
+    }
+  ]
+}

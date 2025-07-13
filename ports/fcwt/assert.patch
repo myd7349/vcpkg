@@ -1,0 +1,13 @@
+diff --git a/src/fcwt/fcwt.cpp b/src/fcwt/fcwt.cpp
+index 5194cf5..9b064c1 100644
+--- a/src/fcwt/fcwt.cpp
++++ b/src/fcwt/fcwt.cpp
+@@ -38,6 +38,8 @@ limitations under the License.
+ 
+ #include "fcwt.h"
+ 
++#include <cassert>
++
+ Morlet::Morlet(float bandwidth) {
+     four_wavelen = 0.9876f;
+     fb = bandwidth;
